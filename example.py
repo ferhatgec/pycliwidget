@@ -9,3 +9,5 @@ pycliwidget.branch_widget()
 pycliwidget.branch_widget_fast()
 
 pycliwidget.uptime_widget(True)
+
+pycliwidget.internet_connection_widget()

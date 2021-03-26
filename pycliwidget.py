@@ -16,10 +16,11 @@
 # Uptime widget.
 # Internet connection widget.
 
-from time import localtime, strftime
 from os import path, system
 
-branch_sign = '⎇'
+branch_sign   = '⎇'
+internet_sign = '🌐'
+
 mercurial   = branch_sign
 git         = branch_sign
 
@@ -62,6 +63,8 @@ def time_widget_main(i_time: int, minute: int, half: bool):
 
 
 def time_widget():
+    from time import localtime, strftime
+
     hour   = int(strftime('%H', localtime()))
     minute = int(strftime('%M', localtime()))
 
@@ -102,3 +105,26 @@ def uptime_widget(to_int: bool):
         print(int(time[1]), 'h ', int(time[2]), 'm', sep='')
     else:
         print(time[1], 'h ', time[2], 'm')
+
+def check_internet_connection() -> bool:
+    try:
+        import httplib
+    except:
+        import http.client as httplib
+
+    connection = httplib.HTTPConnection("www.google.com", timeout=1)
+
+    try:
+        connection.request("HEAD", "/")
+        connection.close()
+
+        return True
+    except:
+        connection.close()
+
+        return False
+
+
+def internet_connection_widget():
+    if check_internet_connection():
+        print(internet_sign)
