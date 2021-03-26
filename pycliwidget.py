@@ -17,6 +17,16 @@
 # Internet connection widget.
 
 from time import localtime, strftime
+from os import path, system
+
+branch_sign = '⎇'
+mercurial   = branch_sign
+git         = branch_sign
+
+get_git_branch       = "git branch | grep '^*' | sed 's/* //'"
+get_mercurial_branch = "hg branch"
+
+bin = "/bin/{}"
 
 def convert(minute: int, time: int) -> bool:
     if minute == time or minute + 12 == time:
@@ -59,3 +69,9 @@ def time_widget():
         time_widget_main(hour, minute, True)
     else:
         time_widget_main(hour, minute, False)
+
+def branch_widget():
+    if  path.exists(".hg") and path.isfile(bin.format("hg")):
+        system(get_mercurial_branch)
+    elif path.exists(".git") and path.isfile(bin.format("git")):
+        system(get_git_branch)
