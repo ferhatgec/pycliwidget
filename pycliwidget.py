@@ -75,3 +75,10 @@ def branch_widget():
         system(get_mercurial_branch)
     elif path.exists(".git") and path.isfile(bin.format("git")):
         system(get_git_branch)
+
+# It has not any checker for executables of VCSs.
+def branch_widget_fast():
+    if  path.exists(".hg"):
+        system(get_mercurial_branch)
+    elif path.exists(".git"):
+        system(get_git_branch)
