@@ -70,6 +70,18 @@ def time_widget():
     else:
         time_widget_main(hour, minute, False)
 
+
+def time_widget_init() -> tuple:
+    with open('/proc/uptime', 'r') as line:
+        seconds = float(line.readline().split()[0])
+
+    days    = seconds / 60 / 60 / 24
+    hours   = seconds / 60 / 60 % 24
+    minutes = seconds / 60 % 60
+
+    return (days, hours, minutes)
+
+
 def branch_widget():
     if  path.exists(".hg") and path.isfile(bin.format("hg")):
         system(get_mercurial_branch)
@@ -82,3 +94,11 @@ def branch_widget_fast():
         system(get_mercurial_branch)
     elif path.exists(".git"):
         system(get_git_branch)
+
+def uptime_widget(to_int: bool):
+    time = time_widget_init()
+
+    if to_int:
+        print(int(time[1]), 'h ', int(time[2]), 'm', sep='')
+    else:
+        print(time[1], 'h ', time[2], 'm')
